@@ -1,19 +1,82 @@
-﻿@page "/counter"
+﻿@page "/drink"
+Drink Generator
+
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<h1>How About....</h1>
 
-<p role="status">Current count: @currentCount</p>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body drinkCard">
+        <h5 class="card-title" style="color:white;">@currentDrink.Name</h5>
+        <h6 class="card-subtitle mb-2 text-muted" style="color:white;">Card subtitle</h6>
+        <p class="card-text" style="color:white;">@currentDrink.Description</p>
+     
+    </div>
+</div>
+
+
+<div class="">
+    <div>@currentDrink.Name </div>
+    <div>@currentDrink.Description</div>
+</div>
+<!-- Grid column -->
+<div class="col-md-3 mb-4">
+    <div class="aqua-gradient color-block mb-3 mx-auto rounded-circle z-depth-1"></div>
+    <h5 class="mb-0">aqua-gradient</h5>
+</div>
+<button class="btn btn-primary" @onclick="RandomizeDrink">Randomize</button>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     private int currentCount = 0;
+    private Drink currentDrink;
+
+    private List<Drink> drinkList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SomeStartupTask();
+    }
+
+    Task SomeStartupTask()
+    {
+
+
+        drinkList.Add(new Drink { Name = "Rockatino", Description = "Pop Rocks" });
+        drinkList.Add(new Drink { Name = "Kick In The Pants", Description = "Its good" });
+        drinkList.Add(new Drink { Name = "Sunrise", Description = "Nice little touch" });
+
+        RandomizeDrink();
+        // Do some task based work
+        return Task.CompletedTask;
+    }
+
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void RandomizeDrink()
+    {
+        var random = new Random();
+
+        int index = random.Next(drinkList.Count);
+
+        currentDrink = drinkList[index];
+    }
+
+
+
+    public class Drink
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+
     }
 }
 
